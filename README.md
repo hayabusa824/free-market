@@ -25,6 +25,13 @@
 
 ・php artisan db:seed
 
+## テスト
+### 違うDBで作成
+
+・php artisan migrate --env=testing
+
+・php artisan test
+
 
 ## 開発環境
 
