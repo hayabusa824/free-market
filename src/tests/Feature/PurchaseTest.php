@@ -100,17 +100,19 @@ class PurchaseTest extends TestCase
             'building' => 'ダミービル',
         ]);
 
-        $response = $this->actingAs($user)
-            ->withSession([
-                "purchase_address_{$item->id}" => [
-                    'tel' => '012-3456',
-                    'address' => '東京都新宿区1-1-1',
-                    'building' => '新宿ビル101',
-                ]
-            ])
-            ->post(route('purchase.store', $item->id), [
-                'payment_method' => 'コンビニ払い',
-            ]);
+        $this->actingAs($user)
+            ->withSession([])
+            ->get('/');
+
+        session()->put("purchase_address_{$item->id}", [
+            'tel' => '012-3456',
+            'address' => '東京都新宿区1-1-1',
+            'building' => '新宿ビル101',
+        ]);
+
+        $response = $this->post(route('purchase.store', $item->id), [
+            'payment_method' => 'コンビニ払い',
+        ]);
 
         $response->assertRedirect('/');
 
